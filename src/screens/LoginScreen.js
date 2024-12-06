@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { login } from '../utils/api';
+import { login } from '../utils/api'; // Sesuaikan path ini dengan file API Anda
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -10,12 +10,12 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await login(email, password);
+      const response = await login(email, password); // Panggil API login
       if (response.status === 'success') {
-        const { role } = response.data;
+        const { role, token } = response.data;
 
         // Simpan token ke AsyncStorage
-        await AsyncStorage.setItem('userToken', response.data.token);
+        await AsyncStorage.setItem('userToken', token);
 
         // Arahkan berdasarkan role
         switch (role) {
