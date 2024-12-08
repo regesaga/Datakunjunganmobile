@@ -8,6 +8,11 @@ import AkomodasiDashboard from './src/screens/AkomodasiDashboard';
 import WisataDashboard from './src/screens/WisataDashboard';
 import KulinerDashboard from './src/screens/KulinerDashboard';
 
+import CreateWisnuWisata from './src/screens/Wisata/CreateWisnuWisata';
+import CreateWisnuAkomodasi from './src/screens/Akomodasi/CreateWisnuAkomodasi';
+import CreateWisnuKuliner from './src/screens/Kuliner/CreateWisnuKuliner';
+
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -17,8 +22,13 @@ const App = () => {
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
                 <Stack.Screen name="WisataDashboard" component={WisataDashboard} />
+                
                 <Stack.Screen name="AkomodasiDashboard" component={AkomodasiDashboard} />
                 <Stack.Screen name="KulinerDashboard" component={KulinerDashboard} />
+
+                <Stack.Screen name="CreateWisnuWisata" component={CreateWisnuWisata} />
+                <Stack.Screen name="CreateWisnuKuliner" component={CreateWisnuKuliner} />
+                <Stack.Screen name="CreateWisnuAkomodasi" component={CreateWisnuAkomodasi} />
             </Stack.Navigator>
         </NavigationContainer>
     );

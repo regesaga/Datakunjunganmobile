@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, ScrollView, Alert } from 'react-native'
 import SelectDropdown from 'react-native-select-dropdown';
 import Barchart from '../screens/Wisata/Barchart';
 import TotalKeseluruhanCard from '../screens/Wisata/TotalKeseluruhanCard';
+import TabBarWisata from '../screens/Wisata/TabBarWisata';
 import Piechart from '../screens/Wisata/Piechart';
 import TabBar from 'fluidbottomnavigation-rn';
 import axios from 'axios';
@@ -100,17 +101,8 @@ const WisataDashboard = ({ navigation }) => {
        
       </ScrollView>
 
-      <TabBar
-        onPress={(tabIndex) => console.log('Selected tab:', tabIndex)}
-        values={[
-          { title: 'News', icon: require('../assets/news.png') },
-          { title: 'Requests', icon: require('../assets/requests.png') },
-          { title: 'Events', icon: require('../assets/events.png') },
-          { title: 'Members', icon: require('../assets/members.png') },
-          { title: 'Account', icon: require('../assets/account.png') },
-        ]}
-        tabBarStyle={{ backgroundColor: 'rgba(40, 90, 90, 0.9)' }}
-      />
+      <TabBarWisata navigation={navigation} />
+
     </View>
   );
 };

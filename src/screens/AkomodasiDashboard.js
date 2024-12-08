@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button, ScrollView, Alert } from 'react-native'
 import SelectDropdown from 'react-native-select-dropdown';
 import Barchart from '../screens/Akomodasi/Barchart';
 import TotalKeseluruhanCard from '../screens/Akomodasi/TotalKeseluruhanCard';
+import TabBarAkomodasi from '../screens/Akomodasi/TabBarAkomodasi';
 import Piechart from '../screens/Akomodasi/Piechart';
 import TabBar from 'fluidbottomnavigation-rn';
 import axios from 'axios';
@@ -100,17 +101,8 @@ const AkomodasiDashboard = ({ navigation }) => {
        
       </ScrollView>
 
-      <TabBar
-        onPress={(tabIndex) => console.log('Selected tab:', tabIndex)}
-        values={[
-          { title: 'News', icon: require('../assets/news.png') },
-          { title: 'Requests', icon: require('../assets/requests.png') },
-          { title: 'Events', icon: require('../assets/events.png') },
-          { title: 'Members', icon: require('../assets/members.png') },
-          { title: 'Account', icon: require('../assets/account.png') },
-        ]}
-        tabBarStyle={{ backgroundColor: 'rgba(40, 90, 90, 0.9)' }}
-      />
+      <TabBarAkomodasi navigation={navigation} />
+
     </View>
   );
 };
