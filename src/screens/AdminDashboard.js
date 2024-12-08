@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, ScrollView, Alert } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Barchart from '../screens/Admin/Barchart';
-import Linechart from '../screens/Admin/Linechart';
+import TotalKeseluruhanCard from '../screens/Admin/TotalKeseluruhanCard';
 import Piechart from '../screens/Admin/Piechart';
 import TabBar from 'fluidbottomnavigation-rn';
 import axios from 'axios';
@@ -79,7 +78,6 @@ const AdminDashboard = ({ navigation }) => {
                   ...(isSelected && { backgroundColor: '#D2D9DF' }),
                 }}
               >
-                <Icon name={item.icon} style={styles.dropdownItemIconStyle} />
                 <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
               </View>
             )}
@@ -90,9 +88,9 @@ const AdminDashboard = ({ navigation }) => {
         </View>
 
         {/* Display Charts */}
+        <TotalKeseluruhanCard year={year} />
         <Barchart year={year} />
-        <Linechart year={year} />
-        <Piechart year={year} /> {/* Kirim state year ke Piechart */}
+          <Piechart year={year} /> {/* Kirim state year ke Piechart */}
 
         <View style={styles.logoutContainer}>
           <Button title="Logout" color="#FF3B30" onPress={() => navigation.replace('Login')} />
@@ -131,11 +129,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+    
   },
   inputContainer: {
     marginBottom: 20,
     width: '50%',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   dropdownButtonStyle: {
     width: '50%',
@@ -170,16 +170,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
   },
-  dropdownItemTxtStyle: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
-  },
-  dropdownItemIconStyle: {
-    fontSize: 20,
-    marginRight: 8,
-    color: '#333',
-  },
+
   errorText: {
     color: 'red',
     fontSize: 12,

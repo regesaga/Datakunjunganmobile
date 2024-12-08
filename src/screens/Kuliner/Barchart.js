@@ -25,8 +25,8 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
         }
 
         const endpoint = year
-          ? `http://192.168.100.206:8000/api/v1/kunjungan/dashboardadmin?year=${year}`
-          : `http://192.168.100.206:8000/api/v1/kunjungan/dashboardadmin`;
+          ? `http://192.168.100.206:8000/api/v1/kunjungan/dashboardkuliner?year=${year}`
+          : `http://192.168.100.206:8000/api/v1/kunjungan/dashboardkuliner`;
 
         const response = await axios.get(endpoint, {
           headers: {
