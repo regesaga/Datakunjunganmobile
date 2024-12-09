@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Alert, Dimensions } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { URL } from '../../URL';
 
 const TotalKeseluruhanCard = ({ year }) => {
   const [data, setData] = useState(null);
@@ -32,8 +33,8 @@ const TotalKeseluruhanCard = ({ year }) => {
         }
 
         const endpoint = year
-          ? `http://192.168.100.206:8000/api/v1/kunjungan/dashboardadmin?year=${year}`
-          : `http://192.168.100.206:8000/api/v1/kunjungan/dashboardadmin`;
+          ? `${URL}/api/v1/kunjungan/dashboardadmin?year=${year}`
+          : `${URL}/api/v1/kunjungan/dashboardadmin`;
 
         const response = await axios.get(endpoint, {
           headers: {

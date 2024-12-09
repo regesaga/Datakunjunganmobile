@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { URL } from '../URL';
 
-const BASE_URL = 'http:/192.168.100.206:8000/api/v1/datakunjungan'; // Change to your backend URL
+const BASE_URL = `${URL}/api/v1/datakunjungan`; // Corrected to use backticks for template literal
 
 export const login = async (email, password) => {
   try {

@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, Modal, Scr
 import axios from 'axios';
 import { Calendar } from 'react-native-calendars';
 import { format } from 'date-fns'; // Pastikan untuk mengimpor date-fns untuk format tanggal
+import { URL } from '../../URL';
 
 const CreateWisnuWisata = ({ route }) => {
   const { token } = route.params; // Menerima token dari navigasi
@@ -24,7 +25,7 @@ const CreateWisnuWisata = ({ route }) => {
   useEffect(() => {
     // Fetch data from API
     axios
-      .get('http://192.168.100.206:8000/api/v1/kunjungan/create-wisnuwisata', {
+      .get(`${URL}/api/v1/kunjungan/create-wisnuwisata`, {
         headers: {
           Authorization: `Bearer ${token}`, // Sertakan token untuk autentikasi
         },
@@ -57,7 +58,7 @@ const CreateWisnuWisata = ({ route }) => {
     };
 
     axios
-      .post('http://192.168.100.206:8000/api/v1/kunjungan/store-wisnuwisata', requestData, {
+      .post('${URL}/api/v1/kunjungan/store-wisnuwisata', requestData, {
         headers: {
           Authorization: `Bearer ${token}`, // Sertakan token untuk autentikasi
         },

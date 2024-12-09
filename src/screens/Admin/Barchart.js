@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { URL } from '../../URL';
 
 const Barchart = ({ title, fillShadowGradient, year }) => {
   const [loading, setLoading] = useState(true);
@@ -25,8 +26,8 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
         }
 
         const endpoint = year
-          ? `http://192.168.100.206:8000/api/v1/kunjungan/dashboardadmin?year=${year}`
-          : `http://192.168.100.206:8000/api/v1/kunjungan/dashboardadmin`;
+          ? `${URL}/api/v1/kunjungan/dashboardadmin?year=${year}`
+          : `${URL}/api/v1/kunjungan/dashboardadmin`;
 
         const response = await axios.get(endpoint, {
           headers: {

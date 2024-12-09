@@ -3,6 +3,7 @@ import { View, Dimensions, Text } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { URL } from '../../URL';
 
 const Linechart = ({ year }) => {
   const [data, setData] = useState([]);
@@ -19,8 +20,8 @@ const Linechart = ({ year }) => {
 
         // Build the endpoint URL conditionally based on the 'year' prop
         const endpoint = year
-          ? `http://192.168.100.206:8000/api/v1/kunjungan/dashboardakomodasi?year=${year}`
-          : `http://192.168.100.206:8000/api/v1/kunjungan/dashboardakomodasi`;
+          ? `${URL}/api/v1/kunjungan/dashboardakomodasi?year=${year}`
+          : `${URL}/api/v1/kunjungan/dashboardakomodasi`;
 
         const response = await axios.get(endpoint, {
           headers: {

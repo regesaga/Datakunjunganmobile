@@ -4,6 +4,7 @@ import { View, Text, Dimensions, StyleSheet } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { URL } from '../../URL';
 
 const Piechart = ({ year }) => {
   const [data, setData] = useState([]);
@@ -19,8 +20,8 @@ const Piechart = ({ year }) => {
         }
 
         const endpoint = year
-          ? `http://192.168.100.206:8000/api/v1/kunjungan/dashboardwisata?year=${year}`
-          : `http://192.168.100.206:8000/api/v1/kunjungan/dashboardwisata`;
+          ? `${URL}/api/v1/kunjungan/dashboardwisata?year=${year}`
+          : `${URL}/api/v1/kunjungan/dashboardwisata`;
 
         const response = await axios.get(endpoint, {
           headers: {

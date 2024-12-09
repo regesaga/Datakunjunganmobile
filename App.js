@@ -13,6 +13,11 @@ import CreateWisnuAkomodasi from './src/screens/Akomodasi/CreateWisnuAkomodasi';
 import CreateWisnuKuliner from './src/screens/Kuliner/CreateWisnuKuliner';
 
 
+import KunjunganWisata from './src/screens/Wisata/KunjunganWisata';
+import KunjunganAkomodasi from './src/screens/Akomodasi/KunjunganAkomodasi';
+import KunjunganKuliner from './src/screens/Kuliner/KunjunganKuliner';
+
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -29,6 +34,12 @@ const App = () => {
                 <Stack.Screen name="CreateWisnuWisata" component={CreateWisnuWisata} />
                 <Stack.Screen name="CreateWisnuKuliner" component={CreateWisnuKuliner} />
                 <Stack.Screen name="CreateWisnuAkomodasi" component={CreateWisnuAkomodasi} />
+
+
+
+                <Stack.Screen name="KunjunganWisata" component={KunjunganWisata} />
+                <Stack.Screen name="KunjunganKuliner" component={KunjunganKuliner} />
+                <Stack.Screen name="KunjunganAkomodasi" component={KunjunganAkomodasi} />
             </Stack.Navigator>
         </NavigationContainer>
     );

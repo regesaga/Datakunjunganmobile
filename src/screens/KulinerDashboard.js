@@ -7,6 +7,7 @@ import TabBarKuliner from '../screens/Kuliner/TabBarKuliner';
 import Piechart from '../screens/Kuliner/Piechart';
 import TabBar from 'fluidbottomnavigation-rn';
 import axios from 'axios';
+import { URL } from '../URL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const KulinerDashboard = ({ navigation }) => {
@@ -37,7 +38,7 @@ const KulinerDashboard = ({ navigation }) => {
 
     try {
       const response = await axios.get(
-        `http://192.168.100.206:8000/api/v1/kunjungan/dashboardkuliner?year=${year}`,
+        `${URL}/api/v1/kunjungan/dashboardkuliner?year=${year}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

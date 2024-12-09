@@ -4,6 +4,7 @@ import { LineChart, BarChart } from 'react-native-gifted-charts'; // Import both
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient, Stop } from 'react-native-svg';
+import { URL } from '../../URL';
 
 const Linechart = ({ year }) => {
   const [data, setData] = useState([]);
@@ -25,8 +26,8 @@ const Linechart = ({ year }) => {
         }
 
         const endpoint = year
-          ? `http://192.168.100.206:8000/api/v1/kunjungan/dashboardadmin?year=${year}`
-          : `http://192.168.100.206:8000/api/v1/kunjungan/dashboardadmin`;
+          ? `${URL}/api/v1/kunjungan/dashboardadmin?year=${year}`
+          : `${URL}/api/v1/kunjungan/dashboardadmin`;
 
         const response = await axios.get(endpoint, {
           headers: {
