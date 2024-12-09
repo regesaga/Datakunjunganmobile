@@ -4,6 +4,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import Barchart from '../screens/Admin/Barchart';
 import TotalKeseluruhanCard from '../screens/Admin/TotalKeseluruhanCard';
 import Piechart from '../screens/Admin/Piechart';
+import TabBarAdmin from '../screens/Admin/TabBarAdmin';
 import TabBar from 'fluidbottomnavigation-rn';
 import axios from 'axios';
 import { URL } from '../URL';
@@ -100,18 +101,8 @@ const AdminDashboard = ({ navigation }) => {
         {/* Tombol untuk mengambil data */}
        
       </ScrollView>
-
-      <TabBar
-        onPress={(tabIndex) => console.log('Selected tab:', tabIndex)}
-        values={[
-          { title: 'News', icon: require('../assets/news.png') },
-          { title: 'Requests', icon: require('../assets/requests.png') },
-          { title: 'Events', icon: require('../assets/events.png') },
-          { title: 'Members', icon: require('../assets/members.png') },
-          { title: 'Account', icon: require('../assets/account.png') },
-        ]}
-        tabBarStyle={{ backgroundColor: 'rgba(40, 90, 90, 0.9)' }}
-      />
+      <TabBarAdmin navigation={navigation} />
+      
     </View>
   );
 };

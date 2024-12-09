@@ -13,6 +13,7 @@ import CreateWisnuAkomodasi from './src/screens/Akomodasi/CreateWisnuAkomodasi';
 import CreateWisnuKuliner from './src/screens/Kuliner/CreateWisnuKuliner';
 
 
+import KunjunganAdmin from './src/screens/Admin/KunjunganAdmin';
 import KunjunganWisata from './src/screens/Wisata/KunjunganWisata';
 import KunjunganAkomodasi from './src/screens/Akomodasi/KunjunganAkomodasi';
 import KunjunganKuliner from './src/screens/Kuliner/KunjunganKuliner';
@@ -37,6 +38,7 @@ const App = () => {
 
 
 
+                <Stack.Screen name="KunjunganAdmin" component={KunjunganAdmin} />
                 <Stack.Screen name="KunjunganWisata" component={KunjunganWisata} />
                 <Stack.Screen name="KunjunganKuliner" component={KunjunganKuliner} />
                 <Stack.Screen name="KunjunganAkomodasi" component={KunjunganAkomodasi} />
