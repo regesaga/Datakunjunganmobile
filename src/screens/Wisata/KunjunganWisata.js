@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, StatusBar, SafeAreaView, ActivityIndicator, RefreshControl, useWindowDimensions } from 'react-native';
+import { View, Text,Image, TouchableOpacity, FlatList, StyleSheet, StatusBar, SafeAreaView, ActivityIndicator, RefreshControl, useWindowDimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { URL } from '../../URL';
 import { format, parseISO } from 'date-fns';
@@ -134,9 +134,13 @@ const KunjunganWisata = ({ route }) => {
     <>
       <StatusBar hidden />
       <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Icon name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
+  <Image
+    source={require("../../assets/left.png")}
+    style={{ width: 25, height: 25 }} // Set the size to 25
+  />
+</TouchableOpacity>
+
         <Text style={styles.headerTitle}>Kunjungan Wisata</Text>
       </View>
 
@@ -192,7 +196,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#3a696c',
+    backgroundColor: '#ed6f34',
     padding: 15,
   },
   backButton: {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Button,StatusBar, TouchableOpacity, Modal, ScrollView, Alert, useWindowDimensions } from 'react-native';
+import { View, Text, TextInput, Image, StyleSheet, Button,StatusBar, TouchableOpacity, Modal, ScrollView, Alert, useWindowDimensions } from 'react-native';
 import axios from 'axios';
 import { Calendar } from 'react-native-calendars';
 import { format } from 'date-fns';
 import { URL } from '../../URL';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import TabBarAkomodasi from '../Akomodasi/TabBarAkomodasi';
 
 const CreateWisnuAkomodasi = ({ route }) => {
   const { token } = route.params;
@@ -118,12 +119,14 @@ const CreateWisnuAkomodasi = ({ route }) => {
     <ScrollView style={styles.container}>
        <StatusBar hidden />
       <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Icon name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Kunjungan Akomodasi</Text>
+      <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
+  <Image
+    source={require("../../assets/left.png")}
+    style={{ width: 25, height: 25 }} // Set the size to 25
+  />
+</TouchableOpacity>
+        <Text style={styles.headerTitle}>Tambah Kunjungan {apiData.akomodasi}</Text>
       </View>
-      <Text style={styles.title}>Tambah Kunjungan {apiData.akomodasi}</Text>
 
       <View style={styles.tabletgl}>
         <View style={styles.tableRow}>
@@ -199,6 +202,7 @@ const CreateWisnuAkomodasi = ({ route }) => {
       <Button title="Simpan" onPress={handleSubmit} color="#ed6f34" />
 
     </ScrollView>
+    
   );
 };
 
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#3a696c',
+    backgroundColor: '#ed6f34',
     padding: 15,
   },
   backButton: {
