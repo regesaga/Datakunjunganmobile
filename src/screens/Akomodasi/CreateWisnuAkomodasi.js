@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 1,
     paddingLeft: 20,
-    color: '#ed6f34',
+    color: '#ec6f37',
   },
   table: {
     marginBottom: 10,
