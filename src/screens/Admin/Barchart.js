@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions, ActivityIndicator } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { URL } from '../../URL';
 
-const Barchart = ({ title, fillShadowGradient, year }) => {
+const Barchart = ({ title, year }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [fetchedData, setFetchedData] = useState([]);
@@ -51,7 +51,7 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
   // Prepare data for BarChart (Gifted Chart format)
   const chartData = fetchedData.map((value, index) => ({
     value,
-    label: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][index],
+    label: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][index],
     frontColor: '#177AD5', // Customize this as needed
     backColor: '#B0C4DE', // Lighter color for the back shadow (simulating depth)
     borderColor: '#8B8B8B', // Slight border to simulate depth
@@ -64,28 +64,33 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
         <Text style={styles.titleText}>Grafik Kunjungan per Bulan Tahun {year}</Text>
       </View>
       {loading ? (
-        <Text>Memuat data...</Text>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#177AD5" />
+          <Text style={styles.loadingText}>Memuat data...</Text>
+        </View>
       ) : error ? (
-        <Text>{error}</Text>
+        <Text style={styles.errorText}>{error}</Text>
       ) : chartData.length > 0 ? (
         <BarChart
-        spacing={13}  // Adjust spacing between bars
-        barWidth={15}  // Dynamically adjusted bar width
-        frontColor="lightgray"
-        data={chartData}
-        hideRules 
-        yAxisThickness={0} // Menonaktifkan ketebalan garis sumbu Y (untuk menghilangkan garis vertikal)
-        xAxisThickness={0} // Menonaktifkan ketebalan garis sumbu X (untuk menghilangkan garis horizontal)
-        width={chartWidth} // Use screen width minus padding
-        showLine={false} // Menonaktifkan garis di atas grafik
-        showGrid={false}  // Menonaktifkan grid (garis horizontal dan vertikal)
-        showYAxisLabels={false}
-        noOfSections={4}  // Menonaktifkan label sumbu Y
-        barBorderRadius={10} // Border radius for bars
-      />
-      
+          spacing={13}  // Adjust spacing between bars
+          barWidth={barWidth}  // Dynamically adjusted bar width
+          frontColor="#177AD5"
+          backColor="#B0C4DE"
+          data={chartData}
+          hideRules 
+          yAxisThickness={0} // Menonaktifkan ketebalan garis sumbu Y (untuk menghilangkan garis vertikal)
+          xAxisThickness={0} // Menonaktifkan ketebalan garis sumbu X (untuk menghilangkan garis horizontal)
+          width={chartWidth} // Use screen width minus padding
+          showLine={false} // Menonaktifkan garis di atas grafik
+          showGrid={false}  // Menonaktifkan grid (garis horizontal dan vertikal)
+          showYAxisLabels={false}
+          noOfSections={4}  // Menonaktifkan label sumbu Y
+          barBorderRadius={5} // Border radius for bars
+          animated
+          initialSpacing={20}
+        />
       ) : (
-        <Text>Data tidak tersedia.</Text>
+        <Text style={styles.noDataText}>Data tidak tersedia.</Text>
       )}
     </View>
   );
@@ -93,26 +98,49 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 10, // Ensures some padding from the sides
+    marginHorizontal: 15, // Ensures some padding from the sides
     backgroundColor: '#fff',
-    borderRadius: 10, // Optional: rounded corners
+    borderRadius: 15, // Optional: rounded corners
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-    marginBottom: 12,
+    shadowRadius: 8,
+    elevation: 5,
+    marginBottom: 20,
     paddingBottom: 20, // Padding at the bottom of the card
+    paddingTop: 15,
+    paddingHorizontal: 15,
   },
   titleContainer: {
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   titleText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 15,
+    color: '#333',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 30,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#888',
+    marginTop: 10,
+  },
+  errorText: {
+    fontSize: 16,
+    color: 'red',
+    textAlign: 'center',
+  },
+  noDataText: {
+    fontSize: 16,
+    color: '#888',
+    textAlign: 'center',
   },
 });
 

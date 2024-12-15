@@ -18,6 +18,10 @@ import KunjunganWisata from './src/screens/Wisata/KunjunganWisata';
 import KunjunganAkomodasi from './src/screens/Akomodasi/KunjunganAkomodasi';
 import KunjunganKuliner from './src/screens/Kuliner/KunjunganKuliner';
 
+import EditWisnuWisata from './src/screens/Wisata/EditWisnuWisata';
+import EditWisnuKuliner from './src/screens/Kuliner/EditWisnuKuliner';
+import EditWisnuAkomodasi from './src/screens/Akomodasi/EditWisnuAkomodasi';
+
 
 const Stack = createStackNavigator();
 
@@ -35,7 +39,10 @@ const App = () => {
                 <Stack.Screen name="CreateWisnuWisata" component={CreateWisnuWisata} />
                 <Stack.Screen name="CreateWisnuKuliner" component={CreateWisnuKuliner} />
                 <Stack.Screen name="CreateWisnuAkomodasi" component={CreateWisnuAkomodasi} />
-
+               
+                <Stack.Screen name="EditWisnuWisata" component={EditWisnuWisata} />
+                <Stack.Screen name="EditWisnuKuliner" component={EditWisnuKuliner} />
+                <Stack.Screen name="EditWisnuAkomodasi" component={EditWisnuAkomodasi} />
 
 
                 <Stack.Screen name="KunjunganAdmin" component={KunjunganAdmin} />

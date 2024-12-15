@@ -131,37 +131,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   dropdownButtonStyle: {
-    width: '50%',
+    width: '100%',
     height: 50,
     backgroundColor: '#f2f2f2',
-    borderRadius: 5,
+    borderRadius: 8,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
+    marginBottom: 10,
   },
   dropdownButtonTxtStyle: {
     flex: 1,
     fontSize: 16,
     color: '#333',
   },
-  dropdownButtonArrowStyle: {
-    fontSize: 20,
-    color: '#333',
-  },
-  dropdownButtonIconStyle: {
-    fontSize: 20,
-    marginRight: 8,
-    color: '#333',
-  },
   dropdownMenuStyle: {
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#fff',
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   dropdownItemStyle: {
     flexDirection: 'row',
-    padding: 10,
+    padding: 12,
     alignItems: 'center',
+  },
+  dropdownItemTxtStyle: {
+    fontSize: 16,
+    color: '#333',
   },
 
   errorText: {

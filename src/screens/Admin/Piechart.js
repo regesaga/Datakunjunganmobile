@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Dimensions, StyleSheet } from 'react-native';
+import { View, Text, Dimensions, StyleSheet, ActivityIndicator } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -50,9 +50,12 @@ const Piechart = ({ year }) => {
     <View style={styles.cardContainer}>
       <Text style={styles.titleText}>Grafik Total Kunjungan Tahun {year}</Text>
       {loading ? (
-        <Text>Memuat data...</Text>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#FF6384" />
+          <Text style={styles.loadingText}>Memuat data...</Text>
+        </View>
       ) : error ? (
-        <Text>{error}</Text>
+        <Text style={styles.errorText}>{error}</Text>
       ) : data.length > 0 ? (
         <PieChart
           data={data.map((item) => ({
@@ -66,6 +69,14 @@ const Piechart = ({ year }) => {
           height={220}
           chartConfig={{
             color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            backgroundGradientFrom: '#FF6384',
+            backgroundGradientTo: '#36A2EB',
+            propsForDots: {
+              r: '6',
+              strokeWidth: '2',
+              stroke: '#fff',
+            },
           }}
           accessor="population"
           backgroundColor="transparent"
@@ -73,7 +84,7 @@ const Piechart = ({ year }) => {
           absolute // Display absolute values on the chart
         />
       ) : (
-        <Text>Data tidak tersedia.</Text>
+        <Text style={styles.noDataText}>Data tidak tersedia.</Text>
       )}
     </View>
   );
@@ -81,22 +92,45 @@ const Piechart = ({ year }) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    marginHorizontal: 20, // Horizontal margin to provide space from edges
-    marginBottom: 20, // Space below the card
+    marginHorizontal: 10, // Horizontal margin to provide space from edges (same as Barchart)
+    marginBottom: 12, // Space below the card (same as Barchart)
     backgroundColor: '#fff',
-    borderRadius: 10, // Rounded corners
+    borderRadius: 10, // Rounded corners (same as Barchart)
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-    paddingVertical: 20, // Vertical padding
+    paddingVertical: 20, // Vertical padding (same as Barchart)
+    paddingHorizontal: 15, // Horizontal padding inside the card (same as Barchart)
   },
   titleText: {
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 15, // Spacing below the title
+    marginBottom: 15, // Spacing below the title (same as Barchart)
+    color: '#333',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 30,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#888',
+    marginTop: 10,
+  },
+  errorText: {
+    fontSize: 16,
+    color: 'red',
+    textAlign: 'center',
+  },
+  noDataText: {
+    fontSize: 16,
+    color: '#888',
+    textAlign: 'center',
   },
 });
 

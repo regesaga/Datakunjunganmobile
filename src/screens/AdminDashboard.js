@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { View, Text, StyleSheet, Button, ScrollView, Alert } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Barchart from '../screens/Admin/Barchart';
 import TotalKeseluruhanCard from '../screens/Admin/TotalKeseluruhanCard';
 import Piechart from '../screens/Admin/Piechart';
 import TabBarAdmin from '../screens/Admin/TabBarAdmin';
-import TabBar from 'fluidbottomnavigation-rn';
 import axios from 'axios';
 import { URL } from '../URL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AggregatedChart from './Admin/AggregatedChart';
+import TotalOperatorCard from './Admin/TotalOperatorCard';
+import { useNavigation } from '@react-navigation/native';
 
 const AdminDashboard = ({ navigation }) => {
   const [year, setYear] = useState(''); // State untuk input tahun
   const [error, setError] = useState('');
+
 
   const years = [
     { title: '2022' },
@@ -21,7 +24,11 @@ const AdminDashboard = ({ navigation }) => {
     { title: '2025' },
     { title: '2026' },
   ];
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false, // This hides the header
+    });
+  }, [navigation]);
   // Fungsi untuk mengambil data dari API
   const fetchDashboardData = async () => {
     const token = await AsyncStorage.getItem('userToken');
@@ -57,6 +64,8 @@ const AdminDashboard = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
 
         {/* Dropdown Tahun */}
+        <TotalOperatorCard year={year} />
+
         <View style={styles.inputContainer}>
           <SelectDropdown
             data={years}
@@ -66,11 +75,9 @@ const AdminDashboard = ({ navigation }) => {
             }}
             renderButton={(selectedItem, isOpen) => (
               <View style={styles.dropdownButtonStyle}>
-                
                 <Text style={styles.dropdownButtonTxtStyle}>
                   {(selectedItem && selectedItem.title) || 'Pilih Tahun'}
                 </Text>
-               
               </View>
             )}
             renderItem={(item, isSelected) => (
@@ -91,18 +98,16 @@ const AdminDashboard = ({ navigation }) => {
 
         {/* Display Charts */}
         <TotalKeseluruhanCard year={year} />
+        <AggregatedChart year={year} />
         <Barchart year={year} />
-          <Piechart year={year} /> {/* Kirim state year ke Piechart */}
+        <Piechart year={year} /> {/* Kirim state year ke Piechart */}
 
         <View style={styles.logoutContainer}>
           <Button title="Logout" color="#FF3B30" onPress={() => navigation.replace('Login')} />
         </View>
 
-        {/* Tombol untuk mengambil data */}
-       
       </ScrollView>
       <TabBarAdmin navigation={navigation} />
-      
     </View>
   );
 };
@@ -110,65 +115,64 @@ const AdminDashboard = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f9fa',
   },
   scrollContainer: {
-    paddingHorizontal: 10,
-    paddingVertical: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 25,
     alignItems: 'center',
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-    
+    color: '#333',
   },
   inputContainer: {
-    marginBottom: 20,
-    width: '50%',
+    marginBottom: 25,
+    width: '80%',
     alignItems: 'center',
     justifyContent: 'center',
   },
   dropdownButtonStyle: {
-    width: '50%',
+    width: '100%',
     height: 50,
-    backgroundColor: '#f2f2f2',
-    borderRadius: 5,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
   },
   dropdownButtonTxtStyle: {
     flex: 1,
     fontSize: 16,
     color: '#333',
   },
-  dropdownButtonArrowStyle: {
-    fontSize: 20,
-    color: '#333',
-  },
-  dropdownButtonIconStyle: {
-    fontSize: 20,
-    marginRight: 8,
-    color: '#333',
-  },
   dropdownMenuStyle: {
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#fff',
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   dropdownItemStyle: {
     flexDirection: 'row',
-    padding: 10,
+    padding: 12,
     alignItems: 'center',
   },
-
+  dropdownItemTxtStyle: {
+    fontSize: 16,
+    color: '#333',
+  },
   errorText: {
     color: 'red',
     fontSize: 12,
+    marginTop: 5,
   },
   logoutContainer: {
-    marginTop: 20,
+    marginTop: 30,
     width: '100%',
     paddingHorizontal: 20,
   },

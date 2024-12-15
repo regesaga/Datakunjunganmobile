@@ -1,43 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, Modal, ScrollView, Alert } from 'react-native';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { View, Text, TextInput, StyleSheet, Button,StatusBar, TouchableOpacity, Modal, ScrollView, Alert, useWindowDimensions } from 'react-native';
 import axios from 'axios';
 import { Calendar } from 'react-native-calendars';
-import { format } from 'date-fns'; // Pastikan untuk mengimpor date-fns untuk format tanggal
+import { format } from 'date-fns';
 import { URL } from '../../URL';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const CreateWisnuWisata = ({ route }) => {
-  const { token } = route.params; // Menerima token dari navigasi
+  const { token } = route.params;
+  const { width, height } = useWindowDimensions(); // Get screen dimensions
   const [formData, setFormData] = useState({
     wisata_id: null,
     tanggal_kunjungan: '',
-    kelompok_kunjungan_id: [], // Terisi dengan ID kelompok kunjungan
+    kelompok_kunjungan_id: [],
     jumlah_laki_laki: [],
     jumlah_perempuan: [],
-    wismannegara_id: [], // Terisi dengan ID wisatawan mancanegara
+    wismannegara_id: [],
     jml_wisman_laki: [],
     jml_wisman_perempuan: [],
   });
-
-  const [apiData, setApiData] = useState(null); // Menyimpan data API
+  const navigation = useNavigation(); 
+  const [apiData, setApiData] = useState(null);
   const [isCalendarVisible, setCalendarVisible] = useState(false);
-  const [date, setDate] = useState(''); // State for selected date
-
+  const [date, setDate] = useState('');
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false, // This hides the header
+    });
+  }, [navigation]);
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
   useEffect(() => {
-    // Fetch data from API
     axios
       .get(`${URL}/api/v1/kunjungan/create-wisnuwisata`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Sertakan token untuk autentikasi
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        setApiData(response.data.data); // Menyimpan data API
+        setApiData(response.data.data);
         setFormData((prev) => ({
           ...prev,
           wisata_id: response.data.data.wisata_id,
-          tanggal_kunjungan: response.data.data.tanggal, // Default tanggal dari API
-          kelompok_kunjungan_id: response.data.data.kelompok.map((kelompok) => kelompok.id), // Set ID kelompok
-          wismannegara_id: response.data.data.wismannegara.map((wisman) => wisman.id), // Set ID wisatawan mancanegara
+          tanggal_kunjungan: response.data.data.tanggal,
+          kelompok_kunjungan_id: response.data.data.kelompok.map((kelompok) => kelompok.id),
+          wismannegara_id: response.data.data.wismannegara.map((wisman) => wisman.id),
         }));
       })
       .catch((error) => {
@@ -58,62 +67,42 @@ const CreateWisnuWisata = ({ route }) => {
     };
 
     axios
-      .post('${URL}/api/v1/kunjungan/store-wisnuwisata', requestData, {
+      .post(`${URL}/api/v1/kunjungan/store-wisnuwisata`, requestData, {
         headers: {
-          Authorization: `Bearer ${token}`, // Sertakan token untuk autentikasi
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        // Show success alert
-        Alert.alert(
-          "Success",
-          response.data.message, // The success message from the API
-          [
-            { text: "OK" }
-          ]
-        );
+        Alert.alert('Success', response.data.message, [{ text: 'OK' }]);
       })
       .catch((error) => {
-        console.error('Error submitting data:', error);
-
         let errorMessage = 'Terjadi kesalahan. Silakan coba lagi.';
         if (error.response) {
-          // Server responded with an error
           errorMessage = error.response.data.message || errorMessage;
         } else if (error.request) {
-          // No response received
           errorMessage = 'Tidak ada respons dari server.';
         } else {
-          // Error in setting up the request
           errorMessage = error.message;
         }
 
-        // Show error alert
-        Alert.alert(
-          "Error",
-          errorMessage,
-          [{ text: "OK" }]
-        );
+        Alert.alert('Ups', errorMessage, [{ text: 'OK' }]);
       });
   };
 
   const handleInputChange = (field, value, index = null) => {
     if (index !== null) {
-      // Jika field berupa array, update nilai di index tertentu
       setFormData((prev) => {
         const updatedArray = [...prev[field]];
         updatedArray[index] = value;
         return { ...prev, [field]: updatedArray };
       });
     } else {
-      // Update nilai untuk field biasa
       setFormData((prev) => ({ ...prev, [field]: value }));
     }
   };
 
-  // Function to format date to Indonesia format
   const formatDateIndonesia = (dateString) => {
-    return format(new Date(dateString), 'Y-M-d'); // Format tanggal menggunakan date-fns
+    return format(new Date(dateString), 'yyyy-MM-dd');
   };
 
   if (!apiData) {
@@ -125,15 +114,23 @@ const CreateWisnuWisata = ({ route }) => {
   }
 
   return (
+    
     <ScrollView style={styles.container}>
+       <StatusBar hidden />
+      <View style={styles.headerContainer}>
+        <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
+          <Icon name="arrow-back" size={24} color="white" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Kunjungan Wisata</Text>
+      </View>
       <Text style={styles.title}>Tambah Kunjungan {apiData.wisata}</Text>
-      <Button title="Simpan" onPress={handleSubmit} />
+
       <View style={styles.tabletgl}>
         <View style={styles.tableRow}>
           <Text style={styles.label}>Tanggal Kunjungan</Text>
           <TouchableOpacity onPress={() => setCalendarVisible(true)}>
             <Text style={styles.labeltgl}>
-              {date ? format(new Date(date), 'Y-M-d') : 'Pilih tanggal'} {/* Menampilkan tanggal */}
+              {date ? format(new Date(date), 'yyyy-MM-dd') : 'Pilih tanggal'}
             </Text>
           </TouchableOpacity>
 
@@ -143,7 +140,7 @@ const CreateWisnuWisata = ({ route }) => {
                 onDayPress={(day) => {
                   setDate(day.dateString);
                   setCalendarVisible(false);
-                  handleInputChange('tanggal_kunjungan', day.dateString); // Set the selected date in formData
+                  handleInputChange('tanggal_kunjungan', day.dateString);
                 }}
                 markedDates={{
                   [date]: { selected: true, marked: true, selectedColor: '#ed6f34' },
@@ -199,20 +196,46 @@ const CreateWisnuWisata = ({ route }) => {
           </View>
         ))}
       </View>
+      <Button title="Simpan" onPress={handleSubmit} color="#ed6f34" />
+
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#3a696c',
+    padding: 15,
+  },
+  backButton: {
+    marginRight: 10,
+  },
+  headerTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  loadingContainer: {
     flex: 1,
-    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
     backgroundColor: '#fff',
+    padding: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 16,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 18,
@@ -226,26 +249,20 @@ const styles = StyleSheet.create({
   labeltgl: {
     fontSize: 16,
     marginBottom: 1,
-    paddingLeft:20
+    paddingLeft: 20,
+    color: '#ed6f34',
   },
   table: {
     marginBottom: 10,
     borderColor: '#ccc',
-    borderRadius: 4,
-    padding: 1,
-  },
-  tabletgl: {
-    marginBottom: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
-    padding: 1,
-    marginTop: 15,
+    borderRadius: 8,
+    padding: 5,
   },
   tableRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 8,
-    borderBottomWidth: 2.5,
+    borderBottomWidth: 2,
     borderBottomColor: '#d9d9d9',
   },
   tableCell: {
@@ -259,14 +276,12 @@ const styles = StyleSheet.create({
   tableInput: {
     flex: 1,
     fontSize: 16,
-    padding: 2,
-    borderWidth: 0,
+    padding: 8,
+    borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
+    marginLeft: 5,
     textAlign: 'center',
-  },
-  inputGroup: {
-    marginBottom: 10,
   },
   modalContent: {
     flex: 1,
