@@ -49,7 +49,7 @@ const TotalKeseluruhanCard = ({ year }) => {
           setError('Data tidak ditemukan');
         }
       } catch (err) {
-        setError('Gagal memuat data.');
+        setError('Data Belum tersedia.');
         console.error(err);
       } finally {
         setLoading(false);

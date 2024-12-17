@@ -1,1 +1,1 @@
-export const URL = 'http://192.168.100.206:8000';
+export const URL = 'https://kuninganbeu.kuningankab.go.id';
