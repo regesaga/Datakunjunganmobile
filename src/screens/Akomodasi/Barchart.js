@@ -38,7 +38,7 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
         // Assume response.data.data.totalKunjungan is an array of numbers
         setFetchedData(response.data.data.totalKunjungan || []);
       } catch (err) {
-        setError('Data Belum tersedia.');
+        setError('Gagal memuat data.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -69,20 +69,28 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
         <Text>{error}</Text>
       ) : chartData.length > 0 ? (
         <BarChart
-        spacing={13}  // Adjust spacing between bars
-        barWidth={15}  // Dynamically adjusted bar width
-        frontColor="lightgray"
-        data={chartData}
-        hideRules 
-        yAxisThickness={0} // Menonaktifkan ketebalan garis sumbu Y (untuk menghilangkan garis vertikal)
-        xAxisThickness={0} // Menonaktifkan ketebalan garis sumbu X (untuk menghilangkan garis horizontal)
-        width={chartWidth} // Use screen width minus padding
-        showLine={false} // Menonaktifkan garis di atas grafik
-        showGrid={false}  // Menonaktifkan grid (garis horizontal dan vertikal)
-        showYAxisLabels={false}
-        noOfSections={4}  // Menonaktifkan label sumbu Y
-        barBorderRadius={10} // Border radius for bars
-      />
+  spacing={13} // Adjust spacing between bars
+  barWidth={barWidth} // Dynamically adjusted bar width
+  frontColor="#177AD5" // Warna bar
+  backColor="#B0C4DE" // Warna bayangan belakang
+  data={chartData}
+  hideRules
+  yAxisThickness={0} // Menonaktifkan garis sumbu Y
+  xAxisThickness={0} // Menonaktifkan garis sumbu X
+  width={chartWidth} // Lebar chart
+  showLine={false} // Menonaktifkan garis di atas grafik
+  showGrid={false} // Menonaktifkan grid
+  showYAxisLabels={false}
+  noOfSections={4} // Jumlah bagian pada sumbu Y
+  barBorderRadius={10} // Border radius untuk bar
+  showValuesAsTopLabel // Menampilkan angka di atas setiap bar
+  topLabelTextStyle={{
+    color: '#333', // Warna teks
+    fontSize: 12, // Ukuran font angka
+    fontWeight: 'bold', // Teks bold
+  }}
+/>
+
       
       ) : (
         <Text>Data tidak tersedia.</Text>

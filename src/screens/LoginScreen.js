@@ -59,7 +59,7 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.sign}>
       <StatusBar hidden />
-      <Text style={styles.title}>Smart Visiting</Text>
+      <Text style={styles.title}>KUDAKU</Text>
       <Image
         style={styles.kuninganbeu1Icon}
         resizeMode="cover"

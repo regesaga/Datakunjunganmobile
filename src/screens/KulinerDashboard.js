@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, ScrollView, Alert } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  ScrollView,
+  Alert,
+  RefreshControl,
+} from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Barchart from '../screens/Kuliner/Barchart';
 import TotalKeseluruhanCard from '../screens/Kuliner/TotalKeseluruhanCard';
 import TabBarKuliner from '../screens/Kuliner/TabBarKuliner';
 import Piechart from '../screens/Kuliner/Piechart';
-import TabBar from 'fluidbottomnavigation-rn';
 import axios from 'axios';
 import { URL } from '../URL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const KulinerDashboard = ({ navigation }) => {
-  const [year, setYear] = useState(''); // State untuk input tahun
+  const [year, setYear] = useState('');
   const [error, setError] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
 
   const years = [
     { title: '2022' },
@@ -22,7 +30,6 @@ const KulinerDashboard = ({ navigation }) => {
     { title: '2026' },
   ];
 
-  // Fungsi untuk mengambil data dari API
   const fetchDashboardData = async () => {
     const token = await AsyncStorage.getItem('userToken');
 
@@ -52,25 +59,34 @@ const KulinerDashboard = ({ navigation }) => {
     }
   };
 
+  // Fungsi untuk refresh data
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchDashboardData();
+    setRefreshing(false);
+  }, [year]);
+
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         {/* Dropdown Tahun */}
         <View style={styles.inputContainer}>
           <SelectDropdown
             data={years}
             onSelect={(selectedItem) => {
               setYear(selectedItem.title);
-              setError(''); // Hapus error saat tahun diubah
+              setError('');
             }}
             renderButton={(selectedItem, isOpen) => (
               <View style={styles.dropdownButtonStyle}>
-                
                 <Text style={styles.dropdownButtonTxtStyle}>
                   {(selectedItem && selectedItem.title) || 'Pilih Tahun'}
                 </Text>
-               
               </View>
             )}
             renderItem={(item, isSelected) => (
@@ -92,18 +108,20 @@ const KulinerDashboard = ({ navigation }) => {
         {/* Display Charts */}
         <TotalKeseluruhanCard year={year} />
         <Barchart year={year} />
-          <Piechart year={year} /> {/* Kirim state year ke Piechart */}
+        <Piechart year={year} />
 
+        {/* Tombol Logout */}
         <View style={styles.logoutContainer}>
-          <Button title="Logout" color="#FF3B30" onPress={() => navigation.replace('Login')} />
+          <Button
+            title="Logout"
+            color="#FF3B30"
+            onPress={() => navigation.replace('Login')}
+          />
         </View>
-
-        {/* Tombol untuk mengambil data */}
-       
       </ScrollView>
 
+      {/* Tab Bar */}
       <TabBarKuliner navigation={navigation} />
-
     </View>
   );
 };
@@ -117,12 +135,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 20,
     alignItems: 'center',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    
   },
   inputContainer: {
     marginBottom: 20,
@@ -161,17 +173,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
-
   errorText: {
     color: 'red',
     fontSize: 12,
   },
   logoutContainer: {
-    marginTop: 20,
-    width: '100%',
-    paddingHorizontal: 20,
-  },
-  fetchDataButton: {
     marginTop: 20,
     width: '100%',
     paddingHorizontal: 20,

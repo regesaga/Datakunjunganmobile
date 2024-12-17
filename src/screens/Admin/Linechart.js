@@ -37,7 +37,7 @@ const Linechart = ({ year }) => {
 
         setData(response.data.data.totalKunjungan || []);
       } catch (err) {
-        setError('Data Belum tersedia.');
+        setError('Gagal memuat data.');
         console.error(err);
       } finally {
         setLoading(false);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, Text, StyleSheet, Button, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView, Alert, RefreshControl } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Barchart from '../screens/Admin/Barchart';
 import TotalKeseluruhanCard from '../screens/Admin/TotalKeseluruhanCard';
@@ -10,12 +10,11 @@ import { URL } from '../URL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AggregatedChart from './Admin/AggregatedChart';
 import TotalOperatorCard from './Admin/TotalOperatorCard';
-import { useNavigation } from '@react-navigation/native';
 
 const AdminDashboard = ({ navigation }) => {
   const [year, setYear] = useState(''); // State untuk input tahun
   const [error, setError] = useState('');
-
+  const [refreshing, setRefreshing] = useState(false); // State untuk mengontrol refresh
 
   const years = [
     { title: '2022' },
@@ -24,12 +23,13 @@ const AdminDashboard = ({ navigation }) => {
     { title: '2025' },
     { title: '2026' },
   ];
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false, // This hides the header
     });
   }, [navigation]);
-  // Fungsi untuk mengambil data dari API
+
   const fetchDashboardData = async () => {
     const token = await AsyncStorage.getItem('userToken');
 
@@ -59,10 +59,21 @@ const AdminDashboard = ({ navigation }) => {
     }
   };
 
+  // Fungsi yang dipanggil saat refresh
+  const onRefresh = async () => {
+    setRefreshing(true); // Mulai status refreshing
+    await fetchDashboardData(); // Ambil data baru
+    setRefreshing(false); // Akhiri status refreshing
+  };
+
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         {/* Dropdown Tahun */}
         <TotalOperatorCard year={year} />
 
@@ -105,7 +116,6 @@ const AdminDashboard = ({ navigation }) => {
         <View style={styles.logoutContainer}>
           <Button title="Logout" color="#FF3B30" onPress={() => navigation.replace('Login')} />
         </View>
-
       </ScrollView>
       <TabBarAdmin navigation={navigation} />
     </View>
@@ -121,12 +131,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 25,
     alignItems: 'center',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#333',
   },
   inputContainer: {
     marginBottom: 25,
@@ -173,11 +177,6 @@ const styles = StyleSheet.create({
   },
   logoutContainer: {
     marginTop: 30,
-    width: '100%',
-    paddingHorizontal: 20,
-  },
-  fetchDataButton: {
-    marginTop: 20,
     width: '100%',
     paddingHorizontal: 20,
   },

@@ -20,6 +20,7 @@ const KunjunganAkomodasi = ({ route }) => {
   const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const navigation = useNavigation();
+
   const { width } = useWindowDimensions();
   const formatDateIndonesia = (dateString) => {
     const parsedDate = parseISO(dateString);

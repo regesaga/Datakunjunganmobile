@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useLayoutEffect } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   StyleSheet,
   StatusBar,
   SafeAreaView,
+  Image,
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
@@ -73,6 +74,13 @@ const KunjunganAdmin = ({ route }) => {
     }
   };
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false, // This hides the header
+    });
+  }, [navigation]);
+
+
   useEffect(() => {
     getDataKunjunganAdmin();
   }, [token]);
@@ -124,9 +132,12 @@ const KunjunganAdmin = ({ route }) => {
     <>
       <StatusBar hidden />
       <View style={styles.headerContainer}>
-        <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
-          <Icon name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
+  <Image
+    source={require("../../assets/left.png")}
+    style={{ width: 25, height: 25 }} // Set the size to 25
+  />
+</TouchableOpacity>
         <Text style={styles.headerTitle}>Kunjungan Wisata</Text>
       </View>
 

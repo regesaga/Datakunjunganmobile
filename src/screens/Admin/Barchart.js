@@ -38,7 +38,7 @@ const Barchart = ({ title, year }) => {
         // Assume response.data.data.totalKunjungan is an array of numbers
         setFetchedData(response.data.data.totalKunjungan || []);
       } catch (err) {
-        setError('Data Belum tersedia.');
+        setError('Gagal memuat data.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -72,23 +72,30 @@ const Barchart = ({ title, year }) => {
         <Text style={styles.errorText}>{error}</Text>
       ) : chartData.length > 0 ? (
         <BarChart
-          spacing={13}  // Adjust spacing between bars
-          barWidth={barWidth}  // Dynamically adjusted bar width
-          frontColor="#177AD5"
-          backColor="#B0C4DE"
-          data={chartData}
-          hideRules 
-          yAxisThickness={0} // Menonaktifkan ketebalan garis sumbu Y (untuk menghilangkan garis vertikal)
-          xAxisThickness={0} // Menonaktifkan ketebalan garis sumbu X (untuk menghilangkan garis horizontal)
-          width={chartWidth} // Use screen width minus padding
-          showLine={false} // Menonaktifkan garis di atas grafik
-          showGrid={false}  // Menonaktifkan grid (garis horizontal dan vertikal)
-          showYAxisLabels={false}
-          noOfSections={4}  // Menonaktifkan label sumbu Y
-          barBorderRadius={5} // Border radius for bars
-          animated
-          initialSpacing={20}
-        />
+        spacing={13} // Adjust spacing between bars
+        barWidth={barWidth} // Dynamically adjusted bar width
+        frontColor="#177AD5"
+        backColor="#B0C4DE"
+        data={chartData}
+        hideRules
+        yAxisThickness={0} // Menonaktifkan ketebalan garis sumbu Y
+        xAxisThickness={0} // Menonaktifkan ketebalan garis sumbu X
+        width={chartWidth} // Use screen width minus padding
+        showLine={false} // Menonaktifkan garis di atas grafik
+        showGrid={false} // Menonaktifkan grid (garis horizontal dan vertikal)
+        showYAxisLabels={false}
+        noOfSections={4} // Menonaktifkan label sumbu Y
+        barBorderRadius={5} // Border radius for bars
+        animated
+        initialSpacing={20}
+        showValuesAsTopLabel // Menampilkan angka di atas setiap bar
+        topLabelTextStyle={{
+          color: '#333', // Warna teks angka
+          fontSize: 12, // Ukuran font angka
+          fontWeight: 'bold', // Membuat teks bold
+        }}
+      />
+      
       ) : (
         <Text style={styles.noDataText}>Data tidak tersedia.</Text>
       )}
