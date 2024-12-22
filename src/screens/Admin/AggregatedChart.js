@@ -73,6 +73,10 @@ const AggregatedChart = ({ year }) => {
   console.log('Target Data:', targetData); // Debugging
   console.log('Realisasi Data:', realisasiData); // Debugging
 
+  // Calculate spacing based on screen width
+  const spacing = screenWidth / (targetData.length + 1); // Adjust spacing based on the number of data points
+  const initialSpacing = spacing / 2; // Half of the spacing for initial spacing
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -80,37 +84,36 @@ const AggregatedChart = ({ year }) => {
       </View>
 
       <LineChart
-  data={targetData}
-  data2={realisasiData}
-  width={screenWidth - 40} // Responsif
-  height={300}
-  spacing={30}
-  initialSpacing={10}
-  textColor1="black"
-  textColor2="black"
-  color1="#177AD5" // Garis Target
-  color2="red" // Garis Realisasi
-  thickness={3}
-  hideRules
-  rulesColor="#ccc"
-  noOfSections={4}
-  yAxisColor="#000"
-  xAxisColor="#000"
-  yAxisThickness={0}
-  xAxisThickness={0}
-  yAxisTextStyle={{ color: '#555', fontSize: 12 }}
-  xAxisLabelTextStyle={{ color: '#555', fontSize: 12 }}
-  dataPointsColor1="blue"
-  dataPointsColor2="red"
-  showDataPoints
-  dataPointsRadius={3} // Ukuran titik data lebih besar
-  dataPointsWidth={2} // Garis titik lebih tebal
-  showValuesAsDataPointsText // Menampilkan angka di titik garis
-  dataPointsTextColor1="blue" // Warna teks untuk Target
-  dataPointsTextColor2="red" // Warna teks untuk Realisasi
-  dataPointsTextFontSize={10} // Ukuran teks angka di titik
-/>
-
+        data={targetData}
+        data2={realisasiData}
+        width={screenWidth - 40} // Responsif
+        height={300}
+        spacing={spacing} // Use dynamic spacing
+        initialSpacing={initialSpacing} // Use dynamic initial spacing
+        textColor1="black"
+        textColor2="black"
+        color1="#177AD5" // Garis Target
+        color2="red" // Garis Realisasi
+        thickness={3}
+        hideRules
+        rulesColor="#ccc"
+        noOfSections={4}
+        yAxisColor="#000"
+        xAxisColor="#000"
+        yAxisThickness={0}
+        xAxisThickness={0}
+        yAxisTextStyle={{ color: '#555', fontSize: 12 }}
+        xAxisLabelTextStyle={{ color: '#555', fontSize: 12 }}
+        dataPointsColor1="blue"
+        dataPointsColor2="red"
+        showDataPoints
+        dataPointsRadius={3} // Ukuran titik data lebih besar
+        dataPointsWidth={2} // Garis titik lebih tebal
+        showValuesAsDataPointsText // Menampilkan angka di titik garis
+        dataPointsTextColor1="blue" // Warna teks untuk Target
+        dataPointsTextColor2="red" // Warna teks untuk Realisasi
+        dataPointsTextFontSize={10} // Ukuran teks angka di titik
+      />
 
       {/* Legenda */}
       <View style={styles.legendContainer}>

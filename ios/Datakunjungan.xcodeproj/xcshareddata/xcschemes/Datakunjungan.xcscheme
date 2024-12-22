@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "Datakunjungan.app"
-               BlueprintName = "Datakunjungan"
-               ReferencedContainer = "container:Datakunjungan.xcodeproj">
+               BuildableName = "Kudaku.app"
+               BlueprintName = "Kudaku"
+               ReferencedContainer = "container:Kudaku.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "DatakunjunganTests.xctest"
-               BlueprintName = "DatakunjunganTests"
-               ReferencedContainer = "container:Datakunjungan.xcodeproj">
+               BuildableName = "KudakuTests.xctest"
+               BlueprintName = "KudakuTests"
+               ReferencedContainer = "container:Kudaku.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Datakunjungan.app"
-            BlueprintName = "Datakunjungan"
-            ReferencedContainer = "container:Datakunjungan.xcodeproj">
+            BuildableName = "Kudaku.app"
+            BlueprintName = "Kudaku"
+            ReferencedContainer = "container:Kudaku.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "Datakunjungan.app"
-            BlueprintName = "Datakunjungan"
-            ReferencedContainer = "container:Datakunjungan.xcodeproj">
+            BuildableName = "Kudaku.app"
+            BlueprintName = "Kudaku"
+            ReferencedContainer = "container:Kudaku.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

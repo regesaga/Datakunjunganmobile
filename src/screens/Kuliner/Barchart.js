@@ -14,7 +14,7 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
   const chartWidth = screenWidth - 40; // Set chart width with padding
 
   // Calculate bar width dynamically based on screen width
-  const barWidth = screenWidth < 350 ? 18 : 22; // Adjust bar width for smaller screens
+  const barWidth = Math.max(18, (chartWidth / fetchedData.length) * 0.8); // Lebar batang
 
   // Fetch data from API
   useEffect(() => {
@@ -57,6 +57,7 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
     borderColor: '#8B8B8B', // Slight border to simulate depth
     borderWidth: 2, // Slight border for 3D effect
   }));
+  const spacing = (chartWidth - (barWidth * chartData.length)) / (chartData.length + 1);
 
   return (
     <View style={styles.container}>
@@ -69,8 +70,8 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
         <Text>{error}</Text>
       ) : chartData.length > 0 ? (
         <BarChart
-  spacing={13} // Adjust spacing between bars
-  barWidth={barWidth} // Dynamically adjusted bar width
+        spacing={spacing} // Use dynamic spacing
+        barWidth={barWidth} // Dynamically adjusted bar width
   frontColor="#177AD5" // Warna bar
   backColor="#B0C4DE" // Warna bayangan belakang
   data={chartData}
@@ -82,12 +83,13 @@ const Barchart = ({ title, fillShadowGradient, year }) => {
   showGrid={false} // Menonaktifkan grid
   showYAxisLabels={false}
   noOfSections={4} // Jumlah bagian pada sumbu Y
-  barBorderRadius={10} // Border radius untuk bar
-  showValuesAsTopLabel={true} // Menampilkan angka di atas bar
+  barBorderRadius={5} // Border radius for 
+  initialSpacing={spacing / 2} // Dynamic initial spacing
+  showValuesAsTopLabel // Menampilkan angka di atas setiap bar
   topLabelTextStyle={{
     color: '#333', // Warna teks angka
     fontSize: 12, // Ukuran font angka
-    fontWeight: 'bold', // Ketebalan teks angka
+    fontWeight: 'bold', // Membuat teks bold
   }}
 />
 

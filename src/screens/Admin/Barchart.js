@@ -14,7 +14,8 @@ const Barchart = ({ title, year }) => {
   const chartWidth = screenWidth - 40; // Set chart width with padding
 
   // Calculate bar width dynamically based on screen width
-  const barWidth = screenWidth < 350 ? 18 : 22; // Adjust bar width for smaller screens
+const barWidth = Math.max(18, (chartWidth / fetchedData.length) * 0.8); // Lebar batang
+
 
   // Fetch data from API
   useEffect(() => {
@@ -58,6 +59,9 @@ const Barchart = ({ title, year }) => {
     borderWidth: 2, // Slight border for 3D effect
   }));
 
+  // Calculate spacing based on the number of 
+  const spacing = (chartWidth - (barWidth * chartData.length)) / (chartData.length + 1);
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -72,30 +76,29 @@ const Barchart = ({ title, year }) => {
         <Text style={styles.errorText}>{error}</Text>
       ) : chartData.length > 0 ? (
         <BarChart
-        spacing={13} // Adjust spacing between bars
-        barWidth={barWidth} // Dynamically adjusted bar width
-        frontColor="#177AD5"
-        backColor="#B0C4DE"
-        data={chartData}
-        hideRules
-        yAxisThickness={0} // Menonaktifkan ketebalan garis sumbu Y
-        xAxisThickness={0} // Menonaktifkan ketebalan garis sumbu X
-        width={chartWidth} // Use screen width minus padding
-        showLine={false} // Menonaktifkan garis di atas grafik
-        showGrid={false} // Menonaktifkan grid (garis horizontal dan vertikal)
-        showYAxisLabels={false}
-        noOfSections={4} // Menonaktifkan label sumbu Y
-        barBorderRadius={5} // Border radius for bars
-        animated
-        initialSpacing={20}
-        showValuesAsTopLabel // Menampilkan angka di atas setiap bar
-        topLabelTextStyle={{
-          color: '#333', // Warna teks angka
-          fontSize: 12, // Ukuran font angka
-          fontWeight: 'bold', // Membuat teks bold
-        }}
-      />
-      
+          spacing={spacing} // Use dynamic spacing
+          barWidth={barWidth} // Dynamically adjusted bar width
+          frontColor="#177AD5"
+          backColor="#B0C4DE"
+          data={chartData}
+          hideRules
+          yAxisThickness={0} // Menonaktifkan ketebalan garis sumbu Y
+          xAxisThickness={0} // Menonaktifkan ketebalan garis sumbu X
+          width={chartWidth} // Use screen width minus padding
+          showLine={false} // Menonaktifkan garis di atas grafik
+          showGrid={false} // Menonaktifkan grid (garis horizontal dan vertikal)
+          showYAxisLabels ={false}
+          noOfSections={4} // Menonaktifkan label sumbu Y
+          barBorderRadius={5} // Border radius for bars
+          animated
+          initialSpacing={spacing / 2} // Dynamic initial spacing
+          showValuesAsTopLabel // Menampilkan angka di atas setiap bar
+          topLabelTextStyle={{
+            color: '#333', // Warna teks angka
+            fontSize: 12, // Ukuran font angka
+            fontWeight: 'bold', // Membuat teks bold
+          }}
+        />
       ) : (
         <Text style={styles.noDataText}>Data tidak tersedia.</Text>
       )}

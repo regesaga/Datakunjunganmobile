@@ -108,7 +108,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
+    fontWeight: 'bold', // Huruf tebal
+    fontStyle: 'italic', // Huruf miring
+    color: '#FF7F50', // Warna oranye mirip seperti di gambar
+    textAlign: 'center',
+    marginTop: 70,
+    marginBottom: 20,
+    textTransform: 'uppercase', // Huruf kapital semua
+  },
+  titledown: {
+    fontSize: 26,
     fontWeight: 'bold', // Huruf tebal
     fontStyle: 'italic', // Huruf miring
     color: '#FF7F50', // Warna oranye mirip seperti di gambar
@@ -149,6 +159,7 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 16,
     borderRadius: 4,
+    color: '#000',
   },
   passwordInput: {
     paddingRight: 40, // Add padding to make space for the icon

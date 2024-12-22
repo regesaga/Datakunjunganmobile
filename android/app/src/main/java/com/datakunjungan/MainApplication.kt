@@ -1,4 +1,4 @@
-package com.datakunjungan
+package com.Kudaku
 
 import android.app.Application
 import com.facebook.react.PackageList
