@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, Dimensions, StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TabBarAdmin = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState(0); // Default to the first tab
-  const screenWidth = Dimensions.get('window').width;
+  const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width);
+
+  useEffect(() => {
+    const onChange = ({ window }) => {
+      setScreenWidth(window.width); // Update screen width on orientation change
+    };
+
+    const subscription = Dimensions.addEventListener('change', onChange);
+
+    // Cleanup the subscription on unmount
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   const handleTabPress = async (tabIndex) => {
     const token = await AsyncStorage.getItem('userToken'); // Fetch the token
@@ -34,8 +47,6 @@ const TabBarAdmin = ({ navigation }) => {
         />
         <Text style={[styles.tabText, selectedTab === 0 && styles.activeTabText]}>Dashboard</Text>
       </TouchableOpacity>
-
-    
 
       <TouchableOpacity
         style={[styles.tab, selectedTab === 2 && styles.activeTab]}

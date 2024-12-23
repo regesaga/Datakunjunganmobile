@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, Dimensions, StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TabBarAkomodasi = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState(0); // Default to the first tab
-  const screenWidth = Dimensions.get('window').width;
+  const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width);
+
+  // Listener for orientation changes
+  useEffect(() => {
+    const onChange = (e) => {
+      setScreenWidth(e.window.width); // Update screen width on orientation change
+    };
+
+    Dimensions.addEventListener('change', onChange); // Add event listener
+    return () => Dimensions.removeEventListener('change', onChange); // Cleanup listener
+  }, []);
 
   const handleTabPress = async (tabIndex) => {
     const token = await AsyncStorage.getItem('userToken'); // Fetch the token
